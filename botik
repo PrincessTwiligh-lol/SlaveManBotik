@@ -1,0 +1,65 @@
+import random
+import telebot
+bot = telebot.TeleBot('1665502206:AAEF3hNF8XK8b6wlF8tHLn36U7qTk8kPTuw')
+from telebot import types
+first = ["Гороскоп про щось добре", "Гороскоп про щось не дуже добре", "Гороскоп про щось погане"]
+second = ["Гороскоп у якому йдеться про застереження"]
+second_add = ["Гороскоп про відносини з друзями і близькими"]
+third = ["Гороскоп де говориться що не варто слухати злих язиків"]
+@bot.message_handler(content_types=['text'])
+
+def calcul(message):
+    if message.text == "Калк":
+        bot.send_message(message.from_user.id, "цифра")
+        
+
+
+
+def get_text_messages(message):
+    if message.text == "Привіт":
+        bot.send_message(message.from_user.id, "Привіт зараз я тобі розкажу гороскоп на сьогодні")
+        keyboard = types.InlineKeyboardMarkup()
+        key_oven = types.InlineKeyboardButton(text='Овен', callback_data='zodiac')
+        keyboard.add(key_oven)
+        key_telec = types.InlineKeyboardButton(text='Телець', callback_data='zodiac')
+        keyboard.add(key_telec)
+        key_bliznecy = types.InlineKeyboardButton(text='Близнюки', callback_data='zodiac')
+        keyboard.add(key_bliznecy)
+        key_rak = types.InlineKeyboardButton(text='Рак', callback_data='zodiac')
+        keyboard.add(key_rak)
+        key_lev = types.InlineKeyboardButton(text='Лев', callback_data='zodiac')
+        keyboard.add(key_lev)
+        key_deva = types.InlineKeyboardButton(text='Діва', callback_data='zodiac')
+        keyboard.add(key_deva)
+        key_vesy = types.InlineKeyboardButton(text='Терези', callback_data='zodiac')
+        keyboard.add(key_vesy)
+        key_scorpion = types.InlineKeyboardButton(text='Скорпіон', callback_data='zodiac')
+        keyboard.add(key_scorpion)
+        key_strelec = types.InlineKeyboardButton(text='Стрілець', callback_data='zodiac')
+        keyboard.add(key_strelec)
+        key_kozerog = types.InlineKeyboardButton(text='Козеріг', callback_data='zodiac')
+        keyboard.add(key_kozerog)
+        key_vodoley = types.InlineKeyboardButton(text='Водолій', callback_data='zodiac')
+        keyboard.add(key_vodoley)
+        key_ryby = types.InlineKeyboardButton(text='Риби', callback_data='zodiac')
+        keyboard.add(key_ryby)
+        bot.send_message(message.from_user.id, text='Вибери свій знак зодіаку', reply_markup=keyboard)
+    elif message.text == "/help":
+        bot.send_message(message.from_user.id, "Напиши Привіт")
+        bot.send_message(message.from_user.id, "Або Антон")
+    elif message.text == "Маша":
+        bot.send_message(message.from_user.id, "❤️❤️❤️")
+        if message.text == '2':
+            bot.send_message(message.from_user.id, 'ok')
+        else:
+            bot.send_message(message.from_user.id, 'no')
+    elif message.text == "Антон":
+        bot.send_message(message.from_user.id, "Антон ЛОХ")
+    else:
+        bot.send_message(message.from_user.id, "Я тебе не розумію. Напиши /help.")
+@bot.callback_query_handler(func=lambda call: True)
+def callback_worker(call):
+    if call.data == "zodiac":
+        msg = random.choice(first) + ' ' + random.choice(second) + ' ' + random.choice(second_add) + ' ' + random.choice(third)
+        bot.send_message(call.message.chat.id, msg)
+bot.polling(none_stop=True, interval=0)
